@@ -45,7 +45,7 @@ const productos = [
 
 let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
-// FUNCIÓN ACTUALIZAR CARRITO (MOVIDA ARRIBA para evitar error)
+// ✅ FUNCIÓN CARRITO (MOVIDA ARRIBA)
 function actualizarCarritoUI() {
     document.getElementById('cart-count').textContent = carrito.reduce((sum, item) => sum + (item.cantidad || 1), 0);
     
@@ -71,26 +71,52 @@ function actualizarCarritoUI() {
     document.getElementById('cart-total').textContent = total.toLocaleString();
 }
 
-// Cargar productos
-const grid = document.getElementById('products-grid');
-productos.forEach((producto, index) => {
-    const card = document.createElement('div');
-    card.className = 'product-card fade-in';
-    card.style.animationDelay = `${index * 0.1}s`;
-    card.innerHTML = `
-        <img src="${producto.img}" alt="${producto.nombre}" onerror="this.src='https://via.placeholder.com/300x250/D4AF37/fff?text=${producto.id}'" loading="lazy">
-        <h3>${producto.nombre}</h3>
-        <p class="price">$${producto.precio.toLocaleString()}</p>
-    `;
-    card.onclick = () => mostrarDetalle(producto);
-    grid.appendChild(card);
+// ✅ CARGAR PRODUCTOS E INICIALIZAR
+document.addEventListener('DOMContentLoaded', function() {
+    const grid = document.getElementById('products-grid');
+    productos.forEach((producto, index) => {
+        const card = document.createElement('div');
+        card.className = 'product-card fade-in';
+        card.style.animationDelay = `${index * 0.1}s`;
+        card.innerHTML = `
+            <img src="${producto.img}" alt="${producto.nombre}" onerror="this.src='https://via.placeholder.com/300x250/D4AF37/fff?text=${producto.id}'" loading="lazy">
+            <h3>${producto.nombre}</h3>
+            <p class="price">$${producto.precio.toLocaleString()}</p>
+        `;
+        card.onclick = () => mostrarDetalle(producto);
+        grid.appendChild(card);
+    });
+    actualizarCarritoUI();
 });
 
-// Funciones principales
+// 🔄 NAVEGACIÓN CORREGIDA
 document.getElementById('logo-home').onclick = () => {
     document.getElementById('home').scrollIntoView({ behavior: 'smooth' });
     document.getElementById('carrito-section').style.display = 'none';
+    document.getElementById('catalogos').style.display = 'block';
 };
+
+document.querySelector('a[href="#catalogos"]').onclick = (e) => {
+    e.preventDefault();
+    document.getElementById('catalogos').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('carrito-section').style.display = 'none';
+    document.getElementById('catalogos').style.display = 'block';
+};
+
+// ✅ CARRITO - SIN OCULTAR PRODUCTOS
+document.getElementById('cart-link').onclick = (e) => {
+    e.preventDefault();
+    document.getElementById('carrito-section').style.display = 'block';
+    document.getElementById('carrito-section').scrollIntoView({ behavior: 'smooth' });
+    actualizarCarritoUI();
+};
+
+// ✅ BOTÓN VOLVER CATÁLOGO
+function volverCatalogo() {
+    document.getElementById('catalogos').style.display = 'block';
+    document.getElementById('carrito-section').style.display = 'none';
+    document.getElementById('catalogos').scrollIntoView({ behavior: 'smooth' });
+}
 
 function mostrarDetalle(producto) {
     document.getElementById('detail-img').src = producto.img;
@@ -112,7 +138,6 @@ function agregarCarrito(producto) {
     localStorage.setItem('carrito', JSON.stringify(carrito));
     actualizarCarritoUI();
     
-    // Animación vuelo
     const img = document.getElementById('detail-img');
     const clone = img.cloneNode(true);
     clone.style.cssText = 'position:fixed;z-index:9999;width:80px;height:80px;border-radius:10px;transition:all 0.8s cubic-bezier(0.25,0.46,0.45,0.94);left:' + img.getBoundingClientRect().left + 'px;top:' + img.getBoundingClientRect().top + 'px;';
@@ -130,14 +155,6 @@ function removerItem(index) {
     localStorage.setItem('carrito', JSON.stringify(carrito));
     actualizarCarritoUI();
 }
-
-document.getElementById('cart-link').onclick = (e) => {
-    e.preventDefault();
-    document.getElementById('carrito-section').style.display = 'block';
-    document.getElementById('catalogos').style.display = 'none';
-    document.getElementById('carrito-section').scrollIntoView({ behavior: 'smooth' });
-    actualizarCarritoUI();
-};
 
 document.getElementById('btn-pay').onclick = (e) => {
     e.preventDefault();
@@ -260,23 +277,12 @@ function cerrarDetalle() {
     document.body.style.overflow = 'auto';
 }
 
+// ✅ X DEL MODAL DE PAGO FUNCIONANDO
 document.querySelector('.close-detail').onclick = cerrarDetalle;
 document.querySelector('.close-modal').onclick = () => {
     document.getElementById('payment-form-modal').classList.add('hidden');
     document.body.style.overflow = 'auto';
 };
-
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-        if (this.id === 'cart-link') return;
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({ behavior: 'smooth' });
-            document.querySelector('.nav-menu').classList.remove('active');
-        }
-    });
-});
 
 document.querySelector('.menu-toggle').onclick = () => {
     document.querySelector('.nav-menu').classList.toggle('active');
@@ -289,9 +295,3 @@ document.addEventListener('keydown', (e) => {
         document.body.style.overflow = 'auto';
     }
 });
-
-// ✅ INICIALIZAR CARRITO
-actualizarCarritoUI();
-
-
-
