@@ -5,7 +5,21 @@ body { font-family: 'Poppins', sans-serif; overflow-x: hidden; color: #333; back
     --gold: #D4AF37; --gold-dark: #B8962E; --white: #fff; --shadow: 0 10px 30px rgba(212,175,55,0.3);
 }
 
-/* Animaciones */
+/* 🎵 CONTROL AUDIO */
+#background-music { display: none; }
+.audio-control { 
+    position: fixed; top: 20px; right: 20px; z-index: 3000; 
+}
+.music-btn {
+    width: 50px; height: 50px; border: none; border-radius: 50%; 
+    background: var(--gold); color: var(--white); font-size: 1.2rem;
+    cursor: pointer; box-shadow: var(--shadow); transition: all 0.3s;
+    display: flex; align-items: center; justify-content: center;
+}
+.music-btn:hover { transform: scale(1.1); }
+.music-btn.muted::after { content: '🔇'; }
+
+/* Animaciones (resto igual que antes) */
 .fade-in { opacity: 0; animation: fadeIn 1s ease forwards; }
 @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
 .animate-slide { opacity: 0; transform: translateY(50px); animation: slideIn 1s ease forwards; }
@@ -17,7 +31,7 @@ body { font-family: 'Poppins', sans-serif; overflow-x: hidden; color: #333; back
 .product-card:hover { transform: translateY(-15px) scale(1.02); box-shadow: 0 20px 40px rgba(212,175,55,0.4); }
 
 /* Header */
-header { position: fixed; top: 0; width: 100%; background: var(--white); box-shadow: var(--shadow); z-index: 1000; }
+header { position: fixed; top: 0; width: 100%; background: var(--white); box-shadow: var(--shadow); z-index: 1000; padding-top: 70px; }
 .nav-container { max-width: 1200px; margin: 0 auto; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
 .logo { font-size: 1.8rem; font-weight: 600; color: var(--gold); cursor: pointer; transition: color 0.3s; }
 .logo:hover { color: var(--gold-dark); }
@@ -83,4 +97,6 @@ footer { background: var(--gold); color: var(--white); text-align: center; paddi
     .hero-content h1 { font-size: 2.5rem; }
     .detail-container { grid-template-columns: 1fr; text-align: center; }
     .form-row { flex-direction: column; }
+    .audio-control { top: 10px; right: 10px; }
+    .music-btn { width: 45px; height: 45px; font-size: 1rem; }
 }
