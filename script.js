@@ -1,8 +1,47 @@
+// 🎵 CONTROL MÚSICA AL INICIO
+document.addEventListener('DOMContentLoaded', function() {
+    const audio = document.getElementById('background-music');
+    const musicBtn = document.getElementById('music-toggle');
+    let isPlaying = false;
+
+    // INTENTAR AUTOPLAY
+    audio.volume = 0.3; // Volumen bajo para políticas autoplay
+    audio.play().then(() => {
+        isPlaying = true;
+        musicBtn.textContent = '🔊';
+    }).catch(() => {
+        // Si falla autoplay, esperar interacción usuario
+        console.log('Autoplay bloqueado - esperando click');
+    });
+
+    // BOTÓN CONTROL MÚSICA
+    musicBtn.onclick = () => {
+        if (isPlaying) {
+            audio.pause();
+            musicBtn.textContent = '🔇';
+            isPlaying = false;
+        } else {
+            audio.play();
+            musicBtn.textContent = '🔊';
+            isPlaying = true;
+        }
+    };
+
+    // Reintentar autoplay en primera interacción
+    document.body.onclick = () => {
+        if (!isPlaying) {
+            audio.play().then(() => {
+                isPlaying = true;
+                musicBtn.textContent = '🔊';
+            }).catch(() => {});
+        }
+    };
+});
+
 // 🔥 TUS PRODUCTOS - Agrega aquí: images/3.png, 4.png...
 const productos = [
     { id: 1, nombre: 'Camisa Elegante', precio: 89990, img: 'images/1.png', desc: 'Camisa premium blanco/dorado' },
     { id: 2, nombre: 'Vestido Dorado', precio: 129990, img: 'images/2.png', desc: 'Vestido fashion exclusivo' },
-    // { id: 3, nombre: 'Pantalon', precio: 69990, img: 'images/3.png', desc: 'Descripcion' },
 ];
 
 let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
@@ -22,13 +61,12 @@ productos.forEach((producto, index) => {
     grid.appendChild(card);
 });
 
-// Logo lleva a home
+// Resto del código igual que antes...
 document.getElementById('logo-home').onclick = () => {
     document.getElementById('home').scrollIntoView({ behavior: 'smooth' });
     document.getElementById('carrito-section').style.display = 'none';
 };
 
-// Mostrar detalles producto
 function mostrarDetalle(producto) {
     document.getElementById('detail-img').src = producto.img;
     document.getElementById('detail-title').textContent = producto.nombre;
@@ -39,7 +77,6 @@ function mostrarDetalle(producto) {
     document.getElementById('btn-cart').onclick = () => agregarCarrito(producto);
 }
 
-// Agregar al carrito CON ANIMACION
 function agregarCarrito(producto) {
     const itemExistente = carrito.find(item => item.id === producto.id);
     if (itemExistente) {
@@ -50,7 +87,6 @@ function agregarCarrito(producto) {
     localStorage.setItem('carrito', JSON.stringify(carrito));
     actualizarCarritoUI();
     
-    // ANIMACION VUELO
     const img = document.getElementById('detail-img');
     const clone = img.cloneNode(true);
     clone.style.cssText = 'position:fixed;z-index:9999;width:80px;height:80px;border-radius:10px;transition:all 0.8s cubic-bezier(0.25,0.46,0.45,0.94);left:' + img.getBoundingClientRect().left + 'px;top:' + img.getBoundingClientRect().top + 'px;';
@@ -63,7 +99,6 @@ function agregarCarrito(producto) {
     cerrarDetalle();
 }
 
-// Actualizar carrito UI
 function actualizarCarritoUI() {
     document.getElementById('cart-count').textContent = carrito.reduce((sum, item) => sum + (item.cantidad || 1), 0);
     
@@ -95,7 +130,6 @@ function removerItem(index) {
     actualizarCarritoUI();
 }
 
-// CARRITO - FUNCIONA PERFECTO
 document.getElementById('cart-link').onclick = (e) => {
     e.preventDefault();
     document.getElementById('carrito-section').style.display = 'block';
@@ -104,7 +138,6 @@ document.getElementById('cart-link').onclick = (e) => {
     actualizarCarritoUI();
 };
 
-// BOTON PAGO
 document.getElementById('btn-pay').onclick = (e) => {
     e.preventDefault();
     if (carrito.length === 0) {
@@ -115,7 +148,6 @@ document.getElementById('btn-pay').onclick = (e) => {
     document.body.style.overflow = 'hidden';
 };
 
-// FORMULARIO → PDF
 document.getElementById('customer-form').onsubmit = async (e) => {
     e.preventDefault();
     
@@ -133,7 +165,6 @@ document.getElementById('customer-form').onsubmit = async (e) => {
     
     generarPDFRecibo(datosCliente);
     
-    // LIMPIAR TODO
     document.getElementById('payment-form-modal').classList.add('hidden');
     carrito = [];
     localStorage.setItem('carrito', JSON.stringify(carrito));
@@ -145,7 +176,6 @@ document.getElementById('customer-form').onsubmit = async (e) => {
     alert('✅ ¡PDF descargado! Contacta WhatsApp ' + datosCliente.whatsapp + ' para pago y entrega.');
 };
 
-// PDF PERFECTO (SIN Medellín + SIN caracteres raros)
 function generarPDFRecibo(pedido) {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
@@ -153,7 +183,6 @@ function generarPDFRecibo(pedido) {
     const gold = [212, 175, 55];
     const white = [255, 255, 255];
     
-    // HEADER
     doc.setFillColor(...gold);
     doc.rect(0, 0, 210, 40, 'F');
     doc.setTextColor(...white);
@@ -161,7 +190,6 @@ function generarPDFRecibo(pedido) {
     doc.setFont("helvetica", "bold");
     doc.text('DYMAVI STORE', 105, 25, { align: 'center' });
     
-    // PEDIDO
     doc.setFillColor(248, 249, 250);
     doc.rect(10, 45, 190, 15, 'F');
     doc.setTextColor(51, 51, 51);
@@ -169,7 +197,6 @@ function generarPDFRecibo(pedido) {
     doc.setFont("helvetica", "bold");
     doc.text(`PEDIDO #${pedido.numeroPedido}`, 15, 55);
     
-    // CLIENTE
     doc.setFontSize(12);
     doc.setFont("helvetica", "normal");
     doc.text('CLIENTE:', 15, 72);
@@ -180,7 +207,6 @@ function generarPDFRecibo(pedido) {
     doc.text(`Tel: ${pedido.telefono}`, 15, 93);
     doc.text(`${pedido.direccion}, ${pedido.barrio}`, 15, 100);
     
-    // PRODUCTOS
     doc.setFontSize(11);
     doc.setFont("helvetica", "bold");
     doc.text('DETALLE DE COMPRA:', 15, 115);
@@ -200,7 +226,6 @@ function generarPDFRecibo(pedido) {
         y += 16;
     });
     
-    // TOTAL
     doc.setFillColor(...gold);
     doc.rect(10, y + 2, 190, 15, 'F');
     doc.setTextColor(...white);
@@ -208,7 +233,6 @@ function generarPDFRecibo(pedido) {
     doc.setFont("helvetica", "bold");
     doc.text(`TOTAL: $${Math.round(total).toLocaleString('es-CO')} COP`, 105, y + 12, { align: 'center' });
     
-    // WHATSAPP
     doc.setTextColor(0, 0, 0);
     doc.setFontSize(14);
     doc.setFont("helvetica", "bold");
@@ -219,7 +243,6 @@ function generarPDFRecibo(pedido) {
     doc.setFont("helvetica", "normal");
     doc.text('WhatsApp - Coordinar pago y entrega en 24h', 15, y + 52);
     
-    // PIE
     doc.setFontSize(10);
     doc.text(`Fecha: ${pedido.fecha}`, 15, 280);
     doc.setFillColor(240, 240, 240);
@@ -231,7 +254,6 @@ function generarPDFRecibo(pedido) {
     doc.save(`Dymavi-${pedido.numeroPedido}.pdf`);
 }
 
-// CERRAR MODALES
 function cerrarDetalle() {
     document.getElementById('product-detail').classList.add('hidden');
     document.body.style.overflow = 'auto';
@@ -243,10 +265,9 @@ document.querySelector('.close-modal').onclick = () => {
     document.body.style.overflow = 'auto';
 };
 
-// NAVEGACION
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
-        if (this.getAttribute('href') === '#carrito-section') return;
+        if (this.id === 'cart-link') return;
         e.preventDefault();
         const target = document.querySelector(this.getAttribute('href'));
         if (target) {
@@ -260,7 +281,6 @@ document.querySelector('.menu-toggle').onclick = () => {
     document.querySelector('.nav-menu').classList.toggle('active');
 };
 
-// ESC
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         cerrarDetalle();
@@ -269,5 +289,4 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// INICIALIZAR
 actualizarCarritoUI();
