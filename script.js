@@ -1,44 +1,24 @@
-// 🎵 CONTROL MÚSICA AL INICIO
+// 🎵 MÚSICA AUTOMÁTICA
 document.addEventListener('DOMContentLoaded', function() {
     const audio = document.getElementById('background-music');
-    const musicBtn = document.getElementById('music-toggle');
-    let isPlaying = false;
-
-    // INTENTAR AUTOPLAY
-    audio.volume = 0.3; // Volumen bajo para políticas autoplay
-    audio.play().then(() => {
-        isPlaying = true;
-        musicBtn.textContent = '🔊';
-    }).catch(() => {
-        // Si falla autoplay, esperar interacción usuario
-        console.log('Autoplay bloqueado - esperando click');
-    });
-
-    // BOTÓN CONTROL MÚSICA
-    musicBtn.onclick = () => {
-        if (isPlaying) {
-            audio.pause();
-            musicBtn.textContent = '🔇';
-            isPlaying = false;
-        } else {
-            audio.play();
-            musicBtn.textContent = '🔊';
-            isPlaying = true;
-        }
+    audio.volume = 0.2; // Volumen bajo
+    
+    // Autoplay + reintento en móviles
+    const playAudio = () => {
+        audio.play().then(() => {
+            console.log('🎵 Música reproduciéndose');
+        }).catch(e => {
+            console.log('Autoplay bloqueado:', e);
+            // Reintentar en interacción
+            document.body.addEventListener('click', playAudio, { once: true });
+            document.body.addEventListener('touchstart', playAudio, { once: true });
+        });
     };
-
-    // Reintentar autoplay en primera interacción
-    document.body.onclick = () => {
-        if (!isPlaying) {
-            audio.play().then(() => {
-                isPlaying = true;
-                musicBtn.textContent = '🔊';
-            }).catch(() => {});
-        }
-    };
+    
+    playAudio();
 });
 
-// 🔥 TUS PRODUCTOS - Agrega aquí: images/3.png, 4.png...
+// 🔥 PRODUCTOS
 const productos = [
     { id: 1, nombre: 'Camisa Elegante', precio: 89990, img: 'images/1.png', desc: 'Camisa premium blanco/dorado' },
     { id: 2, nombre: 'Vestido Dorado', precio: 129990, img: 'images/2.png', desc: 'Vestido fashion exclusivo' },
@@ -61,7 +41,7 @@ productos.forEach((producto, index) => {
     grid.appendChild(card);
 });
 
-// Resto del código igual que antes...
+// Funciones principales
 document.getElementById('logo-home').onclick = () => {
     document.getElementById('home').scrollIntoView({ behavior: 'smooth' });
     document.getElementById('carrito-section').style.display = 'none';
@@ -87,6 +67,7 @@ function agregarCarrito(producto) {
     localStorage.setItem('carrito', JSON.stringify(carrito));
     actualizarCarritoUI();
     
+    // Animación vuelo
     const img = document.getElementById('detail-img');
     const clone = img.cloneNode(true);
     clone.style.cssText = 'position:fixed;z-index:9999;width:80px;height:80px;border-radius:10px;transition:all 0.8s cubic-bezier(0.25,0.46,0.45,0.94);left:' + img.getBoundingClientRect().left + 'px;top:' + img.getBoundingClientRect().top + 'px;';
