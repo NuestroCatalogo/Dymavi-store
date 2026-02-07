@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dymavi Store - Moda y Fashion</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <!-- 🎵 MÚSICA AUTOPLAY OCULTA -->
+    <audio id="background-music" loop preload="auto">
+        <source src="c1.mp3" type="audio/mpeg">
+        <source src="c1.ogg" type="audio/ogg">
+        Tu navegador no soporta audio HTML5.
+    </audio>
+
+    <!-- 🎵 BOTÓN CONTROL AUDIO -->
+    <div class="audio-control">
+        <button id="music-toggle" class="music-btn">
+            🔊
+        </button>
+    </div>
+
+    <header>
+        <nav class="nav-container">
+            <div class="logo" id="logo-home">Dymavi Store</div>
+            <ul class="nav-menu">
+                <li><a href="#home">Inicio</a></li>
+                <li><a href="#catalogos">Catálogos</a></li>
+                <li><a href="#" id="cart-link">Carrito (<span id="cart-count">0</span>)</a></li>
+            </ul>
+            <div class="menu-toggle">☰</div>
+        </nav>
+    </header>
+
+    <!-- 🆕 HERO CON LOGO DE FONDO -->
+    <section id="home" class="hero fade-in">
+        <div class="hero-background">
+            <img src="logogrande.png" alt="Dymavi Store Logo" id="hero-logo">
+        </div>
+        <div class="hero-content">
+            <h1 class="animate-slide">Moda Exclusiva en Oro y Blanco</h1>
+            <p class="animate-slide delay-1">Descubre las últimas tendencias</p>
+            <a href="#catalogos" class="btn-primary animate-bounce">Explorar Catálogo</a>
+        </div>
+    </section>
+
+    <section id="catalogos" class="products-section fade-in">
+        <h2 class="animate-slide">Nuestros Productos</h2>
+        <div class="products-grid" id="products-grid"></div>
+    </section>
+
+    <section id="carrito-section" class="cart-section fade-in" style="display: none;">
+        <h2 class="animate-slide">Mi Carrito</h2>
+        <div id="cart-items"></div>
+        <div class="cart-total">
+            <h3>Total: $<span id="cart-total">0</span></h3>
+            <button class="btn-pay" id="btn-pay">Proceder al Pago</button>
+        </div>
+    </section>
+
+    <!-- Detalles Producto -->
+    <section id="product-detail" class="product-detail hidden">
+        <div class="detail-container">
+            <button class="close-detail">✕</button>
+            <div class="detail-image">
+                <img id="detail-img" src="" alt="Producto">
+            </div>
+            <div class="detail-info">
+                <h2 id="detail-title"></h2>
+                <p class="price" id="detail-price"></p>
+                <p id="detail-desc"></p>
+                <button class="btn-cart" id="btn-cart">Agregar al Carrito</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal de Pago -->
+    <div id="payment-form-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3>Finalizar Compra</h3>
+            <form id="customer-form">
+                <input type="text" id="customer-name" placeholder="Nombre completo" required>
+                <input type="tel" id="customer-phone" placeholder="Teléfono/WhatsApp" required>
+                <input type="email" id="customer-email" placeholder="Email" required>
+                <input type="text" id="customer-address" placeholder="Dirección completa" required>
+                <div class="form-row">
+                    <input type="text" id="customer-cc" placeholder="Cédula" required>
+                    <input type="text" id="customer-city" placeholder="Barrio" required>
+                </div>
+                <button type="submit" class="btn-pay">📄 Generar Recibo PDF</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Dymavi Store. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
