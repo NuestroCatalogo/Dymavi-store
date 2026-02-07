@@ -175,7 +175,7 @@ document.getElementById('customer-form').onsubmit = async (e) => {
         email: document.getElementById('customer-email').value,
         direccion: document.getElementById('customer-address').value,
         cedula: document.getElementById('customer-cc').value,
-        barrio: document.getElementById('customer-city').value,
+        ciudad: document.getElementById('customer-city').value,
         fecha: new Date().toLocaleDateString('es-CO'),
         numeroPedido: 'DYMAVI-' + Date.now().toString().slice(-6),
         whatsapp: '+1 (909) 788-5497'
@@ -223,7 +223,7 @@ function generarPDFRecibo(pedido) {
     doc.setFont("helvetica", "normal");
     doc.text(`C.C: ${pedido.cedula}`, 15, 86);
     doc.text(`Tel: ${pedido.telefono}`, 15, 93);
-    doc.text(`${pedido.direccion}, ${pedido.barrio}`, 15, 100);
+    doc.text(`${pedido.direccion}, ${pedido.ciudad}`, 15, 100);
     
     doc.setFontSize(11);
     doc.setFont("helvetica", "bold");
@@ -295,3 +295,4 @@ document.addEventListener('keydown', (e) => {
         document.body.style.overflow = 'auto';
     }
 });
+
