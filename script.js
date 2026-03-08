@@ -1,51 +1,55 @@
 // 🎵 CONTROL MÚSICA AL INICIO
 document.addEventListener('DOMContentLoaded', function() {
     const audio = document.getElementById('background-music');
-    const musicBtn = document.getElementById('music-toggle');
     let isPlaying = false;
 
     // INTENTAR AUTOPLAY
     audio.volume = 0.3;
     audio.play().then(() => {
         isPlaying = true;
-        musicBtn.textContent = '🔊';
     }).catch(() => {
         console.log('Autoplay bloqueado - esperando click');
     });
-
-    // BOTÓN CONTROL MÚSICA
-    musicBtn.onclick = () => {
-        if (isPlaying) {
-            audio.pause();
-            musicBtn.textContent = '🔇';
-            isPlaying = false;
-        } else {
-            audio.play();
-            musicBtn.textContent = '🔊';
-            isPlaying = true;
-        }
-    };
 
     // Reintentar autoplay en primera interacción
     document.body.onclick = () => {
         if (!isPlaying) {
             audio.play().then(() => {
                 isPlaying = true;
-                musicBtn.textContent = '🔊';
             }).catch(() => {});
         }
     };
 });
 
-// 🔥 PRODUCTOS
+// 🔥 22 PRODUCTOS CON IMÁGENES 1.png HASTA 22.png
 const productos = [
-    { id: 1, nombre: 'Camisa Elegante', precio: 89990, img: 'images/1.png', desc: 'Camisa premium blanco/dorado' },
-    { id: 2, nombre: 'Vestido Dorado', precio: 129990, img: 'images/2.png', desc: 'Vestido fashion exclusivo' },
+    { id: 1, nombre: 'Camisa Elegante Oro', precio: 89990, img: '1.png', desc: 'Camisa premium blanco/dorado con detalles exclusivos' },
+    { id: 2, nombre: 'Vestido Dorado Premium', precio: 129990, img: '2.png', desc: 'Vestido fashion exclusivo en tonos dorados' },
+    { id: 3, nombre: 'Blusa Blanca Elegante', precio: 75990, img: '3.png', desc: 'Blusa blanca con detalles dorados sutiles' },
+    { id: 4, nombre: 'Pantalón Tailored Oro', precio: 99990, img: '4.png', desc: 'Pantalón elegante con acabados dorados' },
+    { id: 5, nombre: 'Chaleco Formal Blanco', precio: 84990, img: '5.png', desc: 'Chaleco perfecto para eventos especiales' },
+    { id: 6, nombre: 'Vestido Largo Dorado', precio: 149990, img: '6.png', desc: 'Vestido largo elegante para ocasiones especiales' },
+    { id: 7, nombre: 'Camisa Slim Fit', precio: 79990, img: '7.png', desc: 'Camisa slim fit en blanco y oro' },
+    { id: 8, nombre: 'Falda Plisada Oro', precio: 89990, img: '8.png', desc: 'Falda plisada con brillo dorado' },
+    { id: 9, nombre: 'Blazer Dorado', precio: 119990, img: '9.png', desc: 'Blazer elegante en tono dorado' },
+    { id: 10, nombre: 'Pantalón Palazzo Blanco', precio: 94990, img: '10.png', desc: 'Pantalón palazzo fluido en blanco' },
+    { id: 11, nombre: 'Top Crop Dorado', precio: 59990, img: '11.png', desc: 'Top crop con detalles dorados brillantes' },
+    { id: 12, nombre: 'Vestido Asimétrico', precio: 109990, img: '12.png', desc: 'Vestido asimétrico moderno y elegante' },
+    { id: 13, nombre: 'Camisa Oversize', precio: 82990, img: '13.png', desc: 'Camisa oversize casual elegante' },
+    { id: 14, nombre: 'Mono Dorado', precio: 139990, img: '14.png', desc: 'Mono elegante en tonos dorados' },
+    { id: 15, nombre: 'Blusa con Volantes', precio: 69990, img: '15.png', desc: 'Blusa romántica con volantes blancos' },
+    { id: 16, nombre: 'Pantalón Cigarro Oro', precio: 92990, img: '16.png', desc: 'Pantalón cigarro con detalles dorados' },
+    { id: 17, nombre: 'Chaqueta Blanca', precio: 129990, img: '17.png', desc: 'Chaqueta estructurada en blanco puro' },
+    { id: 18, nombre: 'Vestido Cocktail', precio: 119990, img: '18.png', desc: 'Vestido cocktail dorado brillante' },
+    { id: 19, nombre: 'Camiseta Premium', precio: 49990, img: '19.png', desc: 'Camiseta premium con detalles dorados' },
+    { id: 20, nombre: 'Enterizo Elegante', precio: 132990, img: '20.png', desc: 'Enterizo completo blanco/dorado' },
+    { id: 21, nombre: 'Blusa Seda Oro', precio: 78990, img: '21.png', desc: 'Blusa de seda en tono oro suave' },
+    { id: 22, nombre: 'Vestido Estructurado', precio: 145990, img: '22.png', desc: 'Vestido estructurado para eventos' }
 ];
 
 let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
-// ✅ FUNCIÓN CARRITO (MOVIDA ARRIBA)
+// ✅ FUNCIÓN CARRITO
 function actualizarCarritoUI() {
     document.getElementById('cart-count').textContent = carrito.reduce((sum, item) => sum + (item.cantidad || 1), 0);
     
@@ -71,13 +75,13 @@ function actualizarCarritoUI() {
     document.getElementById('cart-total').textContent = total.toLocaleString();
 }
 
-// ✅ CARGAR PRODUCTOS E INICIALIZAR
+// ✅ CARGAR 22 PRODUCTOS
 document.addEventListener('DOMContentLoaded', function() {
     const grid = document.getElementById('products-grid');
     productos.forEach((producto, index) => {
         const card = document.createElement('div');
         card.className = 'product-card fade-in';
-        card.style.animationDelay = `${index * 0.1}s`;
+        card.style.animationDelay = `${index * 0.08}s`;
         card.innerHTML = `
             <img src="${producto.img}" alt="${producto.nombre}" onerror="this.src='https://via.placeholder.com/300x250/D4AF37/fff?text=${producto.id}'" loading="lazy">
             <h3>${producto.nombre}</h3>
@@ -89,34 +93,24 @@ document.addEventListener('DOMContentLoaded', function() {
     actualizarCarritoUI();
 });
 
-// 🔄 NAVEGACIÓN CORREGIDA
+// 🔄 NAVEGACIÓN
 document.getElementById('logo-home').onclick = () => {
     document.getElementById('home').scrollIntoView({ behavior: 'smooth' });
     document.getElementById('carrito-section').style.display = 'none';
-    document.getElementById('catalogos').style.display = 'block';
 };
 
 document.querySelector('a[href="#catalogos"]').onclick = (e) => {
     e.preventDefault();
     document.getElementById('catalogos').scrollIntoView({ behavior: 'smooth' });
     document.getElementById('carrito-section').style.display = 'none';
-    document.getElementById('catalogos').style.display = 'block';
 };
 
-// ✅ CARRITO - SIN OCULTAR PRODUCTOS
 document.getElementById('cart-link').onclick = (e) => {
     e.preventDefault();
     document.getElementById('carrito-section').style.display = 'block';
     document.getElementById('carrito-section').scrollIntoView({ behavior: 'smooth' });
     actualizarCarritoUI();
 };
-
-// ✅ BOTÓN VOLVER CATÁLOGO
-function volverCatalogo() {
-    document.getElementById('catalogos').style.display = 'block';
-    document.getElementById('carrito-section').style.display = 'none';
-    document.getElementById('catalogos').scrollIntoView({ behavior: 'smooth' });
-}
 
 function mostrarDetalle(producto) {
     document.getElementById('detail-img').src = producto.img;
@@ -138,12 +132,16 @@ function agregarCarrito(producto) {
     localStorage.setItem('carrito', JSON.stringify(carrito));
     actualizarCarritoUI();
     
+    // ✨ ANIMACIÓN FLYING IMAGE
     const img = document.getElementById('detail-img');
     const clone = img.cloneNode(true);
     clone.style.cssText = 'position:fixed;z-index:9999;width:80px;height:80px;border-radius:10px;transition:all 0.8s cubic-bezier(0.25,0.46,0.45,0.94);left:' + img.getBoundingClientRect().left + 'px;top:' + img.getBoundingClientRect().top + 'px;';
     document.body.appendChild(clone);
     setTimeout(() => {
-        clone.style.left = '80%'; clone.style.top = '10%'; clone.style.opacity = '0'; clone.style.width = '40px';
+        clone.style.left = '80%'; 
+        clone.style.top = '10%'; 
+        clone.style.opacity = '0'; 
+        clone.style.width = '40px';
     }, 100);
     setTimeout(() => clone.remove(), 900);
     
@@ -156,6 +154,7 @@ function removerItem(index) {
     actualizarCarritoUI();
 }
 
+// ✅ PAGO Y PDF
 document.getElementById('btn-pay').onclick = (e) => {
     e.preventDefault();
     if (carrito.length === 0) {
@@ -189,7 +188,6 @@ document.getElementById('customer-form').onsubmit = async (e) => {
     actualizarCarritoUI();
     document.body.style.overflow = 'auto';
     document.getElementById('carrito-section').style.display = 'none';
-    document.getElementById('catalogos').style.display = 'block';
     
     alert('✅ ¡PDF descargado! Contacta WhatsApp ' + datosCliente.whatsapp + ' para pago y entrega.');
 };
@@ -277,7 +275,7 @@ function cerrarDetalle() {
     document.body.style.overflow = 'auto';
 }
 
-// ✅ X DEL MODAL DE PAGO FUNCIONANDO
+// ✅ EVENT LISTENERS FINALES
 document.querySelector('.close-detail').onclick = cerrarDetalle;
 document.querySelector('.close-modal').onclick = () => {
     document.getElementById('payment-form-modal').classList.add('hidden');
@@ -295,4 +293,3 @@ document.addEventListener('keydown', (e) => {
         document.body.style.overflow = 'auto';
     }
 });
-
