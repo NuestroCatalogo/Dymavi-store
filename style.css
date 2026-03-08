@@ -5,9 +5,6 @@ body { font-family: 'Poppins', sans-serif; overflow-x: hidden; color: #333; back
     --gold: #D4AF37; --gold-dark: #B8962E; --white: #fff; --shadow: 0 10px 30px rgba(212,175,55,0.3);
 }
 
-/* 🎵 CONTROL AUDIO */
-
-
 /* 🆕 HERO CON LOGO DE FONDO */
 .hero { 
     height: 100vh; 
@@ -72,38 +69,85 @@ header { position: fixed; top: 0; width: 100%; background: var(--white); box-sha
 .btn-primary, .btn-cart, .btn-pay { background: var(--gold); color: var(--white); padding: 1rem 2rem; border: none; border-radius: 50px; font-size: 1.1rem; cursor: pointer; text-decoration: none; transition: all 0.3s; font-weight: 500; }
 .btn-primary:hover, .btn-cart:hover, .btn-pay:hover { transform: scale(1.05); box-shadow: var(--shadow); }
 
-/* Products */
+/* 🆕 PRODUCTS - TAMAÑOS UNIFORMES */
 .products-section { padding: 5rem 2rem; max-width: 1200px; margin: 0 auto; }
 .products-section h2 { text-align: center; font-size: 2.5rem; color: var(--gold); margin-bottom: 3rem; }
 .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
-.product-card { background: var(--white); border-radius: 20px; overflow: hidden; box-shadow: var(--shadow); cursor: pointer; }
-.product-card img { width: 100%; height: 250px; object-fit: cover; transition: transform 0.4s; }
+.product-card { 
+    background: var(--white); 
+    border-radius: 20px; 
+    overflow: hidden; 
+    box-shadow: var(--shadow); 
+    cursor: pointer;
+    height: 380px; /* Altura fija para todas las cards */
+    display: flex;
+    flex-direction: column;
+}
+.product-card img { 
+    width: 100%; 
+    height: 250px; /* Altura fija para todas las imágenes */
+    object-fit: cover; /* Mantiene proporción sin distorsión */
+    object-position: center; /* Centra la imagen */
+    transition: transform 0.4s; 
+}
 .product-card:hover img { transform: scale(1.1); }
-.product-card h3 { padding: 1rem; font-size: 1.3rem; }
-.product-card .price { padding: 0 1rem 1rem; font-size: 1.5rem; color: var(--gold); font-weight: 600; }
+.product-card h3 { 
+    padding: 1rem; 
+    font-size: 1.3rem; 
+    flex-grow: 1; /* Ocupa espacio disponible */
+    display: flex;
+    align-items: center;
+}
+.product-card .price { 
+    padding: 0 1rem 1rem; 
+    font-size: 1.5rem; 
+    color: var(--gold); 
+    font-weight: 600; 
+}
 
 /* Carrito */
 .cart-section { padding: 5rem 2rem; max-width: 1200px; margin: 0 auto; }
 .cart-item { display: flex; gap: 1rem; padding: 1.5rem; background: #f9f9f9; border-radius: 15px; margin-bottom: 1rem; align-items: center; animation: cartSlide 0.5s ease; }
 @keyframes cartSlide { from { opacity: 0; transform: translateX(50px); } }
-.cart-item img { width: 80px; height: 80px; object-fit: cover; border-radius: 10px; }
+.cart-item img { 
+    width: 80px; 
+    height: 80px; 
+    object-fit: cover; 
+    border-radius: 10px;
+    flex-shrink: 0; /* No se encoge */
+}
 .cart-total { text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 3px solid var(--gold); }
 .cart-total h3 { font-size: 2rem; color: var(--gold); margin-bottom: 1rem; }
 
-/* Detalles Producto */
+/* 🆕 DETALLES PRODUCTO - IMAGEN FIJA */
 .product-detail { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 2000; padding: 2rem; animation: modalFade 0.3s ease; }
 @keyframes modalFade { from { opacity: 0; } }
 .detail-container { background: var(--white); border-radius: 20px; max-width: 800px; width: 90%; max-height: 90vh; overflow-y: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; position: relative; padding: 2rem; transform: scale(0.9); animation: modalScale 0.3s ease forwards; }
 @keyframes modalScale { to { transform: scale(1); } }
 .close-detail { position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 2rem; cursor: pointer; color: #999; }
 
-/* Modal Formulario - X A LA IZQUIERDA */
+.detail-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.detail-image img {
+    width: 100%;
+    max-width: 350px; /* Ancho máximo fijo */
+    height: 400px; /* Altura fija perfecta */
+    object-fit: cover; /* Mantiene proporción */
+    object-position: center;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+/* Modal Formulario */
 .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 2500; animation: modalFade 0.3s ease; }
 .modal-content { background: var(--white); padding: 2.5rem; border-radius: 20px; max-width: 500px; width: 90%; max-height: 90vh; overflow-y: auto; position: relative; }
 .close-modal { 
     position: absolute; 
     top: 0.5rem; 
-    right: 1rem;           /* ← IZQUIERDA */
+    right: 1rem;
     background: none; 
     border: none; 
     font-size: 2rem; 
@@ -131,9 +175,10 @@ footer { background: var(--gold); color: var(--white); text-align: center; paddi
     .hero-content h1 { font-size: 2.5rem; }
     #hero-logo { opacity: 0.35; }
     .detail-container { grid-template-columns: 1fr; text-align: center; }
+    .detail-image img {
+        max-width: 280px;
+        height: 320px;
+    }
     .form-row { flex-direction: column; }
-    .audio-control { top: 10px; right: 10px; }
-    .music-btn { width: 45px; height: 45px; font-size: 1rem; }
-    .close-modal { left: 1rem; top: 0.8rem; font-size: 1.8rem; }
+    .close-modal { right: 1rem; top: 0.8rem; font-size: 1.8rem; }
 }
-
